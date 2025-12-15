@@ -19,16 +19,16 @@ export class MarketStoreController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.marketStoreService.findOne(+id);
+    return this.marketStoreService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMarketStoreDto: UpdateMarketStoreDto) {
-    return this.marketStoreService.update(+id, updateMarketStoreDto);
+    return this.marketStoreService.update(id, updateMarketStoreDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.marketStoreService.remove(+id);
+    return this.marketStoreService.remove(id);
   }
 }

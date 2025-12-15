@@ -11,22 +11,22 @@ import { plainToInstance } from 'class-transformer';
 export class MarketBrandService {
 	constructor(
 		@InjectRepository(MarketBrand)
-		private marketBrandRepository: Repository<MarketBrand>,
+		private repo: Repository<MarketBrand>,
 	) { }
 
 	async create(createMarketBrandDto: CreateMarketBrandDto) : Promise<MarketBrandResponseDto>{
-		const ent = await this.marketBrandRepository.insert(createMarketBrandDto);
+		const ent = await this.repo.insert(createMarketBrandDto);
 		return plainToInstance(MarketBrandResponseDto, ent.raw, {
 			excludeExtraneousValues: true,
 		});
 	}
 
 	async findAll(): Promise<MarketBrand[]> {
-		return plainToInstance(MarketBrandResponseDto, await this.marketBrandRepository.find());
+		return plainToInstance(MarketBrandResponseDto, await this.repo.find());
 	}
 
 	async findOne(id: string): Promise<MarketBrand | null> {
-		const ent = await this.marketBrandRepository.findOne({
+		const ent = await this.repo.findOne({
 			where: {id},
 			relations: ['stores'],
 		});
@@ -34,10 +34,10 @@ export class MarketBrandService {
 	}
 
 	update(id: string, updateMarketBrandDto: UpdateMarketBrandDto) : Promise<UpdateResult> {
-		return this.marketBrandRepository.update(id, updateMarketBrandDto);
+		return this.repo.update(id, updateMarketBrandDto);
 	}
 
 	remove(id: string) : Promise<DeleteResult> {
-		return this.marketBrandRepository.delete(id);
+		return this.repo.delete(id);
 	}
 }

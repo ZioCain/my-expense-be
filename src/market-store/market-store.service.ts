@@ -11,26 +11,31 @@ import { MarketStoreResponseDto } from './dto/response.market-store.dto';
 export class MarketStoreService {
 	constructor(
 		@InjectRepository(MarketStore)
-		private marketStoreRepository: Repository<MarketStore>,
+		private repo: Repository<MarketStore>,
 	){}
 
 	async create(createMarketStoreDto: CreateMarketStoreDto) : Promise<MarketStoreResponseDto> {
-		return plainToInstance( MarketStoreResponseDto, (await this.marketStoreRepository.insert(createMarketStoreDto)).raw );
+		return plainToInstance( MarketStoreResponseDto, (await this.repo.insert(createMarketStoreDto)).raw );
 	}
 
 	async findAll() : Promise<MarketStoreResponseDto[]> {
-		return plainToInstance(MarketStoreResponseDto, await this.marketStoreRepository.find());
+		return plainToInstance(MarketStoreResponseDto, await this.repo.find({
+			relations: ['marketBrand']
+		}));
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} marketStore`;
+	async findOne(id: string) {
+		return plainToInstance(MarketStoreResponseDto, await this.repo.findOne({
+			where: {id},
+			relations: ['marketBrand']
+		}));
 	}
 
-	update(id: number, updateMarketStoreDto: UpdateMarketStoreDto) {
-		return `This action updates a #${id} marketStore`;
+	update(id: string, updateMarketStoreDto: UpdateMarketStoreDto) {
+		return this.repo.update(id, updateMarketStoreDto);
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} marketStore`;
+	remove(id: string) {
+		return this.repo.delete(id);
 	}
 }
