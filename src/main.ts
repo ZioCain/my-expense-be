@@ -8,6 +8,8 @@ async function bootstrap() {
 	app.setGlobalPrefix('api');
 	app.useGlobalPipes(new ValidationPipe({
 		transform: true,
+		disableErrorMessages: false,
+		whitelist: true
 	}));
 
 	const config = new DocumentBuilder()

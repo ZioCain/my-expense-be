@@ -26,7 +26,10 @@ export class MarketBrandService {
 	}
 
 	async findOne(id: string): Promise<MarketBrand | null> {
-		const ent = await this.marketBrandRepository.findOneBy({ id });
+		const ent = await this.marketBrandRepository.findOne({
+			where: {id},
+			relations: ['stores'],
+		});
 		return plainToInstance(MarketBrandResponseDto, ent);
 	}
 

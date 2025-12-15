@@ -1,9 +1,11 @@
 import { MarketBrand } from "src/market-brand/entities/market-brand.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({
+	name: "market_store"
+})
 export class MarketStore {
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn("uuid")
 	id: string;
 	@Column()
 	address:string;
@@ -12,6 +14,10 @@ export class MarketStore {
 	@Column()
 	longitudine:number;
 
-	@ManyToOne(()=>MarketBrand, (brand)=>brand.stores)
-	market_brand_id:string;
+	@Column({ name: 'market_brand_id' }) // Explicitly defines the column name in the DB
+    market_brand_id: string;
+
+	@ManyToOne(() => MarketBrand, (brand) => brand.stores)
+    @JoinColumn({ name: 'market_brand_id' }) // Links this relationship object to the FK column above
+    marketBrand: MarketBrand;
 }

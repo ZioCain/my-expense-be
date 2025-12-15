@@ -12,6 +12,6 @@ export class MarketBrand {
 	@Column({default: null})
 	logo: string;
 
-	@OneToMany(type => MarketStore, MarketStore => MarketStore.market_brand_id)
+	@OneToMany(() => MarketStore, marketStore => marketStore.marketBrand)
 	stores: MarketStore[];
 }
