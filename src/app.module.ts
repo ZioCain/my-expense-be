@@ -1,16 +1,31 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './services/app.service';
+import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MarketBrandModule } from './market-brand/market-brand.module';
 import { MarketStoreModule } from './market-store/market-store.module';
 import { MarketBrand } from './market-brand/entities/market-brand.entity';
 import { MarketStore } from './market-store/entities/market-store.entity';
+import { ProductBrandModule } from './product-brand/product-brand.module';
+import { ProductTagModule } from './product-tag/product-tag.module';
+import { ProductModule } from './product/product.module';
+import { ProductTagLinkModule } from './product-tag-link/product-tag-link.module';
+import { ExpenseModule } from './expense/expense.module';
+import { ProductBrand } from './product-brand/entities/product-brand.entity';
+import { ProductTag } from './product-tag/entities/product-tag.entity';
+import { Product } from './product/entities/product.entity';
+import { ProductTagLink } from './product-tag-link/entities/product-tag-link.entity';
+import { Expense } from './expense/entities/expense.entity';
 
 @Module({
 	imports: [
 		MarketBrandModule,
 		MarketStoreModule,
+		ProductBrandModule,
+		ProductTagModule,
+		ProductModule,
+		ProductTagLinkModule,
+		ExpenseModule,
 
 		TypeOrmModule.forRoot({
 			type: 'postgres',
@@ -21,7 +36,12 @@ import { MarketStore } from './market-store/entities/market-store.entity';
 			database: 'my-expense',
 			entities: [
 				MarketBrand,
-				MarketStore
+				MarketStore,
+				ProductBrand,
+				ProductTag,
+				Product,
+				ProductTagLink,
+				Expense,
 			],
 			synchronize: false,
 			logging: true,
