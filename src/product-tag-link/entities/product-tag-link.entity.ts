@@ -1,10 +1,10 @@
 import { ProductTag } from "src/product-tag/entities/product-tag.entity";
 import { Product } from "src/product/entities/product.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
 @Entity({name: "product_tag_link"})
 export class ProductTagLink {
-	@Column({ type: 'uuid' })
+	@PrimaryColumn({ type: 'uuid' })
     product_id: string;
 
     @ManyToOne(() => Product)
@@ -13,7 +13,7 @@ export class ProductTagLink {
 
     // --- Product Tag Relationship ---
 
-    @Column({ type: 'uuid' })
+    @PrimaryColumn({ type: 'uuid' })
     product_tag_id: string;
 
     @ManyToOne(() => ProductTag)

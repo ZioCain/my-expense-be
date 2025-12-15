@@ -10,6 +10,7 @@ export class ProductTagLinkService {
 		@InjectRepository(ProductTagLink)
 		private repo: Repository<ProductTagLink>,
 	) { }
+
 	create(createProductTagLinkDto: CreateProductTagLinkDto) {
 		const link = this.repo.create(createProductTagLinkDto);
 		return this.repo.save(link);
