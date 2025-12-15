@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MarketBrandModule } from './market-brand/market-brand.module';
 import { MarketStoreModule } from './market-store/market-store.module';
@@ -47,9 +45,5 @@ import { Expense } from './expense/entities/expense.entity';
 			logging: true,
 		}),
 	],
-	controllers: [
-		AppController,
-	],
-	providers: [AppService],
 })
 export class AppModule { }
