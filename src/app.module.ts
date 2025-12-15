@@ -14,6 +14,9 @@ import { ProductTag } from './product-tag/entities/product-tag.entity';
 import { Product } from './product/entities/product.entity';
 import { ProductTagLink } from './product-tag-link/entities/product-tag-link.entity';
 import { Expense } from './expense/entities/expense.entity';
+import { FileController } from './media/file-controller/file.controller';
+import { MulterModule } from '@nestjs/platform-express';
+import { Media } from './media/file-controller/media.entity';
 
 @Module({
 	imports: [
@@ -24,6 +27,7 @@ import { Expense } from './expense/entities/expense.entity';
 		ProductModule,
 		ProductTagLinkModule,
 		ExpenseModule,
+		TypeOrmModule.forFeature([Media]),
 
 		TypeOrmModule.forRoot({
 			type: 'postgres',
@@ -40,10 +44,15 @@ import { Expense } from './expense/entities/expense.entity';
 				Product,
 				ProductTagLink,
 				Expense,
+				Media,
 			],
 			synchronize: false,
 			logging: true,
 		}),
+		MulterModule.register({
+			dest: './uploads', // Destination folder for uploaded files
+		}),
 	],
+	controllers: [FileController],
 })
 export class AppModule { }

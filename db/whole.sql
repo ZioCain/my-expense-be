@@ -7,3 +7,5 @@ tables/product.sql
 tables/product_tag_link.sql
 
 tables/expense.sql
+
+tables/media.sql
