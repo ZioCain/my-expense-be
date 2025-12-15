@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductTagDto } from './dto/create-product-tag.dto';
 import { UpdateProductTagDto } from './dto/update-product-tag.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ProductTag } from './entities/product-tag.entity';
+import { ProductTagResponseDto } from './dto/response.product-tag.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class ProductTagService {
-  create(createProductTagDto: CreateProductTagDto) {
-    return 'This action adds a new productTag';
-  }
+	constructor(
+		@InjectRepository(ProductTag)
+		private repo: Repository<ProductTag>,
+	) { }
 
-  findAll() {
-    return `This action returns all productTag`;
-  }
+	async create(createProductTagDto: CreateProductTagDto) {
+		const ent = await this.repo.insert(createProductTagDto);
+		return plainToInstance(ProductTagResponseDto, ent.raw, {
+			excludeExtraneousValues: true,
+		});
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} productTag`;
-  }
+	async findAll() {
+		return plainToInstance(ProductTagResponseDto, await this.repo.find());
+	}
 
-  update(id: number, updateProductTagDto: UpdateProductTagDto) {
-    return `This action updates a #${id} productTag`;
-  }
+	async findOne(id: string) {
+		const ent = await this.repo.findOne({
+			where: {id},
+			relations: ['stores'],
+		});
+		return plainToInstance(ProductTagResponseDto, ent);
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} productTag`;
-  }
+	update(id: string, updateProductTagDto: UpdateProductTagDto) {
+		return this.repo.update(id, updateProductTagDto);
+	}
+
+	remove(id: string) {
+		return this.repo.delete(id);
+	}
 }
