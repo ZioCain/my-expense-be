@@ -1,6 +1,7 @@
+import { Expense } from "src/expense/entities/expense.entity";
 import { ProductBrand } from "src/product-brand/entities/product-brand.entity";
 import { ProductTag } from "src/product-tag/entities/product-tag.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "product"})
 export class Product {
@@ -26,9 +27,12 @@ export class Product {
 	@ManyToMany(() => ProductTag, (tag) => tag.products) // References the 'products' property in ProductTag
     @JoinTable({
         // Optional: Customize the junction table name and column names
-        name: 'product_tag_links',
+        name: 'product_tag_link',
         joinColumn: { name: 'product_id' },
         inverseJoinColumn: { name: 'product_tag_id' },
     })
     tags: ProductTag[];
+
+	@OneToMany(() => Expense, expense => expense.product)
+	expenses:Expense[];
 }

@@ -1,16 +1,22 @@
 import { Expose } from 'class-transformer';
 import { Product } from 'src/product/entities/product.entity';
 
-export class ProductBrandResponseDto {
+export class ExpenseResponseDto {
 	@Expose()
 	id: string;
 
 	@Expose()
-	name: string;
+	product_id: string;
 
 	@Expose()
-	logo: string;
+	product: Product;
 
 	@Expose()
-	products: Product[]
+	price: number;
+
+	@Expose()
+	discount: number;
+
+	@Expose()
+	buy_date: Date;
 }

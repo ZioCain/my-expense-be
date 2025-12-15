@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMarketStoreDto } from './dto/create-market-store.dto';
 import { UpdateMarketStoreDto } from './dto/update-market-store.dto';
 import { MarketStore } from './entities/market-store.entity';
@@ -15,7 +15,7 @@ export class MarketStoreService {
 	){}
 
 	async create(createMarketStoreDto: CreateMarketStoreDto) : Promise<MarketStoreResponseDto> {
-		return plainToInstance( MarketStoreResponseDto, (await this.repo.insert(createMarketStoreDto)).raw );
+		return plainToInstance( MarketStoreResponseDto, await this.repo.save(this.repo.create(createMarketStoreDto)) );
 	}
 
 	async findAll() : Promise<MarketStoreResponseDto[]> {
@@ -24,15 +24,18 @@ export class MarketStoreService {
 		}));
 	}
 
-	async findOne(id: string) {
+	async findOne(id: string) : Promise<MarketStore | null> {
 		return plainToInstance(MarketStoreResponseDto, await this.repo.findOne({
 			where: {id},
 			relations: ['marketBrand']
 		}));
 	}
 
-	update(id: string, updateMarketStoreDto: UpdateMarketStoreDto) {
-		return this.repo.update(id, updateMarketStoreDto);
+	async update(id: string, updateDto: UpdateMarketStoreDto) {
+		const existing = await this.findOne(id);
+		if(!existing) throw new NotFoundException();
+		this.repo.merge(existing, updateDto);
+		return this.repo.save(existing);
 	}
 
 	remove(id: string) {

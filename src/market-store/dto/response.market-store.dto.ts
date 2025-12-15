@@ -18,5 +18,8 @@ export class MarketStoreResponseDto {
 	longitudine: number;
 
 	@Expose()
-	brand: MarketBrand;
+	marketBrand: MarketBrand;
+
+	@Expose()
+	market_brand_id: string;
 }

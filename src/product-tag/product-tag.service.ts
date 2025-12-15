@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductTagDto } from './dto/create-product-tag.dto';
 import { UpdateProductTagDto } from './dto/update-product-tag.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,8 +15,8 @@ export class ProductTagService {
 	) { }
 
 	async create(createProductTagDto: CreateProductTagDto) {
-		const ent = await this.repo.insert(createProductTagDto);
-		return plainToInstance(ProductTagResponseDto, ent.raw, {
+		const ent = await this.repo.save(this.repo.create(createProductTagDto));
+		return plainToInstance(ProductTagResponseDto, ent, {
 			excludeExtraneousValues: true,
 		});
 	}
@@ -25,7 +25,7 @@ export class ProductTagService {
 		return plainToInstance(ProductTagResponseDto, await this.repo.find());
 	}
 
-	async findOne(id: string) {
+	async findOne(id: string) : Promise<ProductTag | null> {
 		const ent = await this.repo.findOne({
 			where: {id},
 			relations: ['stores'],
@@ -33,8 +33,11 @@ export class ProductTagService {
 		return plainToInstance(ProductTagResponseDto, ent);
 	}
 
-	update(id: string, updateProductTagDto: UpdateProductTagDto) {
-		return this.repo.update(id, updateProductTagDto);
+	async update(id: string, updateDto: UpdateProductTagDto) {
+		const existing = await this.findOne(id);
+		if(!existing) throw new NotFoundException();
+		this.repo.merge(existing, updateDto);
+		return this.repo.save(existing);
 	}
 
 	remove(id: string) {

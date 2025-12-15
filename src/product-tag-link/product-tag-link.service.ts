@@ -1,26 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductTagLinkDto } from './dto/create-product-tag-link.dto';
-import { UpdateProductTagLinkDto } from './dto/update-product-tag-link.dto';
+import { ProductTagLink } from './entities/product-tag-link.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ProductTagLinkService {
-  create(createProductTagLinkDto: CreateProductTagLinkDto) {
-    return 'This action adds a new productTagLink';
-  }
+	constructor(
+		@InjectRepository(ProductTagLink)
+		private repo: Repository<ProductTagLink>,
+	) { }
+	create(createProductTagLinkDto: CreateProductTagLinkDto) {
+		const link = this.repo.create(createProductTagLinkDto);
+		return this.repo.save(link);
+	}
 
-  findAll() {
-    return `This action returns all productTagLink`;
-  }
+	async findTagsByProductId(productId: string): Promise<ProductTagLink[]> {
+		// Finds all link entities for a given product ID, loading the related ProductTag object
+		return this.repo.find({
+			where: { product_id: productId },
+			relations: ['productTag'],
+			select: ['productTag'] // Optionally select only the tag data for efficiency
+		});
+	}
 
-  findOne(id: string) {
-    return `This action returns a #${id} productTagLink`;
-  }
+	// GET: /product-tag-link/tag/{uuid}
+	async findProductsByTagId(tagId: string): Promise<ProductTagLink[]> {
+		// Finds all link entities for a given tag ID, loading the related Product object
+		return this.repo.find({
+			where: { product_tag_id: tagId },
+			relations: ['product'],
+			select: ['product'] // Optionally select only the product data
+		});
+	}
 
-  update(id: string, updateProductTagLinkDto: UpdateProductTagLinkDto) {
-    return `This action updates a #${id} productTagLink`;
-  }
+	async deleteByKeys(productId: string, tagId: string): Promise<void> {
+		// 1. Find the link first to verify it exists. This is good practice
+		//    for providing meaningful feedback (404 Not Found).
+		const linkToDelete = await this.repo.findOne({
+		where: {
+			product_id: productId,
+			product_tag_id: tagId
+		},
+		});
 
-  remove(id: string) {
-    return `This action removes a #${id} productTagLink`;
-  }
+		if (!linkToDelete) {
+			throw new NotFoundException(
+				`Link not found for Product ID: ${productId} and Tag ID: ${tagId}`,
+			);
+		}
+
+		// 2. Perform the actual deletion.
+		// We can use the remove method with the entity object found above
+		await this.repo.remove(linkToDelete);
+	}
 }

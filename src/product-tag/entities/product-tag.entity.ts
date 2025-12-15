@@ -12,7 +12,7 @@ export class ProductTag {
 	@ManyToMany(() => Product, (product) => product.tags) // References the 'products' property in ProductTag
 	@JoinTable({
 		// Optional: Customize the junction table name and column names
-		name: 'product_tag_links',
+		name: 'product_tag_link',
 		joinColumn: { name: 'product_tag_id' },
 		inverseJoinColumn: { name: 'product_id' },
 	})

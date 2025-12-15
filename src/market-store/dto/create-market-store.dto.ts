@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class CreateMarketStoreDto {
 	@ApiProperty({description: "Indirizzo del luogo", example: "Via salcazzi, 15"})
@@ -18,7 +18,7 @@ export class CreateMarketStoreDto {
 	readonly longitudine:number;
 
 	@ApiProperty({description: "ID del brand di supermercato", example: "UUID"})
-	@IsString()
+	@IsUUID()
 	@IsNotEmpty()
 	readonly market_brand_id:string;
 }

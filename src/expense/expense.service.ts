@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { Expense } from './entities/expense.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
+import { ExpenseResponseDto } from './dto/response.expense.dto';
 
 @Injectable()
 export class ExpenseService {
-  create(createExpenseDto: CreateExpenseDto) {
-    return 'This action adds a new expense';
-  }
+	constructor(
+		@InjectRepository(Expense)
+		private repo: Repository<Expense>,
+	) { }
 
-  findAll() {
-    return `This action returns all expense`;
-  }
+	async create(createExpenseDto: CreateExpenseDto) {
+		const ent = await this.repo.save(this.repo.create(createExpenseDto));
+		return plainToInstance(ExpenseResponseDto, ent, {
+			excludeExtraneousValues: true,
+		});
+	}
 
-  findOne(id: string) {
-    return `This action returns a #${id} expense`;
-  }
+	async findAll() {
+		return plainToInstance(ExpenseResponseDto, await this.repo.find());
+	}
 
-  update(id: string, updateExpenseDto: UpdateExpenseDto) {
-    return `This action updates a #${id} expense`;
-  }
+	async findOne(id: string) : Promise<Expense | null> {
+		const ent = await this.repo.findOne({
+			where: {id},
+			relations: ['productBrand', 'tags'],
+		});
+		return plainToInstance(ExpenseResponseDto, ent);
+	}
 
-  remove(id: string) {
-    return `This action removes a #${id} expense`;
-  }
+	async update(id: string, updateDto: UpdateExpenseDto) {
+		const existing = await this.findOne(id);
+		if (!existing) throw new NotFoundException();
+		this.repo.merge(existing, updateDto);
+		return this.repo.save(existing);
+	}
+
+	remove(id: string) {
+		return `This action removes a #${id} expense`;
+	}
 }
