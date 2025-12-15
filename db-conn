@@ -1,0 +1,7 @@
+-- Source - https://stackoverflow.com/a
+-- Posted by Vidul, modified by community. See post 'Timeline' for change history
+-- Retrieved 2025-12-14, License - CC BY-SA 3.0
+
+  $connString = 'port=5432 dbname=my-expense user=my-expense password=my-expense';
+  $connHandler = pg_connect($connString);
+  echo 'Connected to '.pg_dbname($connHandler);
