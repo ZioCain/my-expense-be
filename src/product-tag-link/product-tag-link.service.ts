@@ -12,15 +12,15 @@ export class ProductTagLinkService {
     return `This action returns all productTagLink`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} productTagLink`;
   }
 
-  update(id: number, updateProductTagLinkDto: UpdateProductTagLinkDto) {
+  update(id: string, updateProductTagLinkDto: UpdateProductTagLinkDto) {
     return `This action updates a #${id} productTagLink`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} productTagLink`;
   }
 }

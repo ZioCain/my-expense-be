@@ -19,16 +19,16 @@ export class ProductTagLinkController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productTagLinkService.findOne(+id);
+    return this.productTagLinkService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductTagLinkDto: UpdateProductTagLinkDto) {
-    return this.productTagLinkService.update(+id, updateProductTagLinkDto);
+    return this.productTagLinkService.update(id, updateProductTagLinkDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productTagLinkService.remove(+id);
+    return this.productTagLinkService.remove(id);
   }
 }
