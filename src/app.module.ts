@@ -17,6 +17,8 @@ import { Expense } from './expense/entities/expense.entity';
 import { FileController } from './media/file-controller/file.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { Media } from './media/file-controller/media.entity';
+import { ScontrinoModule } from './scontrino/scontrino.module';
+import { Scontrino } from './scontrino/entities/scontrino.entity';
 
 @Module({
 	imports: [
@@ -27,6 +29,7 @@ import { Media } from './media/file-controller/media.entity';
 		ProductModule,
 		ProductTagLinkModule,
 		ExpenseModule,
+		ScontrinoModule,
 		TypeOrmModule.forFeature([Media]),
 
 		TypeOrmModule.forRoot({
@@ -45,6 +48,7 @@ import { Media } from './media/file-controller/media.entity';
 				ProductTagLink,
 				Expense,
 				Media,
+				Scontrino,
 			],
 			synchronize: false,
 			logging: true,

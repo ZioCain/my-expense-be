@@ -8,4 +8,6 @@ tables/product_tag_link.sql
 
 tables/expense.sql
 
+tables/scontrino.sql
+
 tables/media.sql

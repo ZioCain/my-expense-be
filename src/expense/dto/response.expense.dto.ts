@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer';
 import { Product } from 'src/product/entities/product.entity';
+import { Scontrino } from 'src/scontrino/entities/scontrino.entity';
 
 export class ExpenseResponseDto {
 	@Expose()
@@ -7,6 +8,9 @@ export class ExpenseResponseDto {
 
 	@Expose()
 	product_id: string;
+
+	@Expose()
+	scontrino_id: string;
 
 	@Expose()
 	product: Product;
@@ -18,5 +22,5 @@ export class ExpenseResponseDto {
 	discount: number;
 
 	@Expose()
-	buy_date: Date;
+	scontrino: Scontrino;
 }
