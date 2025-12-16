@@ -20,5 +20,5 @@ export class CreateProductDto {
 	@ApiProperty({description: "Il brand/marchio del prodotto (UUID)", example: "UUID", type: "string", required: true})
 	@IsUUID()
 	@IsNotEmpty()
-	readonly product_brand_id: string
+	readonly product_brand_id: string;
 }
