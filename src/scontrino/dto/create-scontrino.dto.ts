@@ -3,7 +3,6 @@ import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from "
 
 export class CreateScontrinoDto {
 	@ApiProperty({description: "Data in cui è avvenuto l'acquisto", example: "2025-10-10", type: "string"})
-	@IsDate()
 	@IsNotEmpty()
 	readonly buy_date: Date;
 
@@ -14,7 +13,6 @@ export class CreateScontrinoDto {
 
 	@ApiProperty({description: "L'importo totale dello scontrino", example: "10.92", type: "number"})
 	@IsNumber()
-	@IsPositive()
 	@IsOptional()
 	readonly total: number;
 }
