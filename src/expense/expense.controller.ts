@@ -5,30 +5,45 @@ import { UpdateExpenseDto } from './dto/update-expense.dto';
 
 @Controller('expense')
 export class ExpenseController {
-  constructor(private readonly expenseService: ExpenseService) {}
+	constructor(private readonly expenseService: ExpenseService) { }
 
-  @Post()
-  create(@Body() createExpenseDto: CreateExpenseDto) {
-    return this.expenseService.create(createExpenseDto);
-  }
+	@Post()
+	create(@Body() createExpenseDto: CreateExpenseDto) {
+		return this.expenseService.create(createExpenseDto);
+	}
 
-  @Get()
-  findAll() {
-    return this.expenseService.findAll();
-  }
+	@Get()
+	findAll() {
+		return this.expenseService.findAll();
+	}
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.expenseService.findOne(id);
-  }
+	@Get(':id')
+	findOne(@Param('id') id: string) {
+		return this.expenseService.findOne(id);
+	}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
-    return this.expenseService.update(id, updateExpenseDto);
-  }
+	@Patch(':id')
+	update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
+		return this.expenseService.update(id, updateExpenseDto);
+	}
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.expenseService.remove(id);
-  }
+	@Delete(':id')
+	remove(@Param('id') id: string) {
+		return this.expenseService.remove(id);
+	}
+
+	@Get('getLastExpenseAt/:store_id')
+	getLastExpenseAt(@Param('store_id') store_id: string){
+		return {message: "fuck you"};
+	}
+
+	@Get('getExpensesAt/:store_id')
+	getExpensesAt(@Param('store_id') store_id: string){
+		return {message: "fuck you"};
+	}
+
+	@Get('getAllSpentAt/:store_id')
+	getAllSpentAt(@Param('store_id') store_id: string){
+		return {message: "fuck you"};
+	}
 }

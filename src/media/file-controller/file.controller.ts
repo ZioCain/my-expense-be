@@ -1,4 +1,4 @@
-import { Controller, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
@@ -6,6 +6,9 @@ import { Media } from './media.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Response } from 'express';
+import * as fs from 'fs';
+
+const BASE_PATH:string = './uploads/images';
 
 @Controller('files')
 export class FileController {
@@ -19,7 +22,7 @@ export class FileController {
 	@UseInterceptors(
 		FileInterceptor('image', {
 			storage: diskStorage({
-				destination: './uploads/images',
+				destination: BASE_PATH,
 				filename: (req, file, callback) => {
 					// Generate a unique filename using timestamp + original extension
 					const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -73,5 +76,18 @@ export class FileController {
 				res.status(404).send('File not found');
 			}
 		});
+	}
+
+	@Delete(":id")
+	async deleteFile(@Param('id') id: string, @Res() res: Response){
+		const file = await this.repo.findOneBy({id});
+		let deleted: boolean = false;
+		try{
+			fs.unlinkSync(`${BASE_PATH}/${file?.path}`);
+			deleted = true;
+		}catch(err){
+			console.log("Cannot delete file");
+		}
+		return this.repo.delete(id);
 	}
 }

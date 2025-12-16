@@ -28,7 +28,7 @@ export class ProductBrandService {
 	async findOne(id: string) :Promise<ProductBrand | null>{
 		const ent = await this.repo.findOne({
 			where: {id},
-			relations: ['stores'],
+			relations: ['products'],
 		});
 		return plainToInstance(ProductBrandResponseDto, ent);
 	}
