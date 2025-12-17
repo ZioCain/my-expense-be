@@ -13,6 +13,12 @@ export class Expense {
 	@Column()
 	discount: number;
 
+	@Column()
+	scontrino_id: string;
+
+	@Column()
+	product_id: string;
+
 	@ManyToOne(() => Scontrino, (scontrino) => scontrino.expenses)
 	@JoinColumn({ name: 'scontrino_id' }) // Links this relationship object to the FK column above
 	scontrino: Scontrino;

@@ -11,5 +11,9 @@ export class CreateExpenseDto {
 
 	@IsUUID()
 	@IsNotEmpty()
-	product_id: string;
+	readonly product_id: string;
+
+	@IsUUID()
+	@IsNotEmpty()
+	readonly scontrino_id: string;
 }

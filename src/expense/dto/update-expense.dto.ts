@@ -14,4 +14,8 @@ export class UpdateExpenseDto extends PartialType(CreateExpenseDto) {
 	@IsUUID()
 	@IsNotEmpty()
 	product_id: string;
+
+	@IsUUID()
+	@IsNotEmpty()
+	scontrino_id: string;
 }

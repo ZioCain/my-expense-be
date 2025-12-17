@@ -31,19 +31,4 @@ export class ExpenseController {
 	remove(@Param('id') id: string) {
 		return this.expenseService.remove(id);
 	}
-
-	@Get('getLastExpenseAt/:store_id')
-	getLastExpenseAt(@Param('store_id') store_id: string){
-		return {message: "fuck you"};
-	}
-
-	@Get('getExpensesAt/:store_id')
-	getExpensesAt(@Param('store_id') store_id: string){
-		return {message: "fuck you"};
-	}
-
-	@Get('getAllSpentAt/:store_id')
-	getAllSpentAt(@Param('store_id') store_id: string){
-		return {message: "fuck you"};
-	}
 }

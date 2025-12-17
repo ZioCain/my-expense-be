@@ -16,9 +16,7 @@ export class ExpenseService {
 
 	async create(createExpenseDto: CreateExpenseDto) {
 		const ent = await this.repo.save(this.repo.create(createExpenseDto));
-		return plainToInstance(ExpenseResponseDto, ent, {
-			excludeExtraneousValues: true,
-		});
+		return plainToInstance(ExpenseResponseDto, ent);
 	}
 
 	async findAll() {
@@ -28,7 +26,7 @@ export class ExpenseService {
 	async findOne(id: string) : Promise<Expense | null> {
 		const ent = await this.repo.findOne({
 			where: {id},
-			relations: ['productBrand', 'tags'],
+			relations: ['product', 'scontrino'],
 		});
 		return plainToInstance(ExpenseResponseDto, ent);
 	}
@@ -41,6 +39,6 @@ export class ExpenseService {
 	}
 
 	remove(id: string) {
-		return `This action removes a #${id} expense`;
+		this.repo.delete(id);
 	}
 }

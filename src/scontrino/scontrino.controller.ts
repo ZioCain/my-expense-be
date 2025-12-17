@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ScontrinoService } from './scontrino.service';
 import { CreateScontrinoDto } from './dto/create-scontrino.dto';
 import { UpdateScontrinoDto } from './dto/update-scontrino.dto';
+import { ExpenseResponseDto } from 'src/expense/dto/response.expense.dto';
 
 @Controller('scontrino')
 export class ScontrinoController {
@@ -30,5 +31,25 @@ export class ScontrinoController {
 	@Delete(':id')
 	remove(@Param('id') id: string) {
 		return this.scontrinoService.remove(id);
+	}
+
+	@Get(':id/expenses')
+	getExpenses(@Param('id') id: string):Promise<ExpenseResponseDto[]>{
+		return this.scontrinoService.getExpensesFor(id);
+	}
+
+	@Get('getLastExpenseAt/:store_id')
+	getLastExpenseAt(@Param('store_id') store_id: string){
+		return {message: "fuck you"};
+	}
+
+	@Get('getExpensesAt/:store_id')
+	getExpensesAt(@Param('store_id') store_id: string){
+		return {message: "fuck you"};
+	}
+
+	@Get('getAllSpentAt/:store_id')
+	getAllSpentAt(@Param('store_id') store_id: string){
+		return {message: "fuck you"};
 	}
 }
