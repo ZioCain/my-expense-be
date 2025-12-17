@@ -43,7 +43,8 @@ export class ScontrinoService {
 
 	async getExpensesFor(scontrino_id: string): Promise<ExpenseResponseDto[]> {
 		return plainToInstance(ExpenseResponseDto, await this.repoExpense.find({
-			where: { scontrino_id }
+			where: { scontrino_id },
+			relations: ['product']
 		}));
 	}
 
@@ -68,8 +69,10 @@ export class ScontrinoService {
 	}
 
 	async getAllSpentAt(store_id: string) {
-		return await this.repo.sum('total', {
-			market_store_id: store_id,
-		});
+		return {
+			total: await this.repo.sum('total', {
+				market_store_id: store_id,
+			})
+		};
 	}
 }

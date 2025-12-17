@@ -40,16 +40,16 @@ export class ScontrinoController {
 
 	@Get('getLastExpenseAt/:store_id')
 	getLastExpenseAt(@Param('store_id') store_id: string){
-		return {message: "fuck you"};
+		return this.scontrinoService.getLastExpenseAt(store_id);
 	}
 
 	@Get('getExpensesAt/:store_id')
 	getExpensesAt(@Param('store_id') store_id: string){
-		return {message: "fuck you"};
+		return this.scontrinoService.getExpensesAt(store_id);
 	}
 
 	@Get('getAllSpentAt/:store_id')
 	getAllSpentAt(@Param('store_id') store_id: string){
-		return {message: "fuck you"};
+		return this.scontrinoService.getAllSpentAt(store_id);
 	}
 }
