@@ -7,10 +7,10 @@ export class Expense {
 	@PrimaryGeneratedColumn()
 	id: string;
 
-	@Column()
+	@Column({ type: 'decimal', precision: 12, scale: 2 })
 	price: number;
 
-	@Column()
+	@Column({ type: 'decimal', precision: 12, scale: 2 })
 	discount: number;
 
 	@Column()

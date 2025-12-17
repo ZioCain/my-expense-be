@@ -10,9 +10,9 @@ export class MarketStore {
 	id: string;
 	@Column()
 	address:string;
-	@Column()
+	@Column({ type: 'decimal', precision: 12, scale: 6 })
 	latitudine:number;
-	@Column()
+	@Column({ type: 'decimal', precision: 12, scale: 6 })
 	longitudine:number;
 
 	@Column({ name: 'market_brand_id' }) // Explicitly defines the column name in the DB

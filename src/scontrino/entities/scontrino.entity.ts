@@ -10,7 +10,7 @@ export class Scontrino {
 	@Column()
 	buy_date: Date;
 
-	@Column()
+	@Column({ type: 'decimal', precision: 12, scale: 2 })
 	total: number = 0;
 
 	@Column()
