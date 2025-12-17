@@ -41,4 +41,17 @@ export class ExpenseService {
 	remove(id: string) {
 		this.repo.delete(id);
 	}
+
+	async getForProduct(product_id:string):Promise<Expense[]>{
+		return plainToInstance(ExpenseResponseDto, await this.repo.find({
+				where: {product_id},
+				relations: ['scontrino'],
+				order: {
+					scontrino:{
+						buy_date: 'DESC'
+					}
+				}
+			})
+		);
+	}
 }

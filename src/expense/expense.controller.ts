@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ExpenseService } from './expense.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { ExpenseResponseDto } from './dto/response.expense.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('expense')
 export class ExpenseController {
@@ -30,5 +32,10 @@ export class ExpenseController {
 	@Delete(':id')
 	remove(@Param('id') id: string) {
 		return this.expenseService.remove(id);
+	}
+
+	@Get('getForProduct/:id')
+	getForProduct(@Param('id') id: string):Promise<ExpenseResponseDto[]>{
+		return this.expenseService.getForProduct(id);
 	}
 }
