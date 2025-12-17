@@ -22,7 +22,9 @@ export class ProductService {
 	}
 
 	async findAll() {
-		return plainToInstance(ProductResponseDto, await this.repo.find());
+		return plainToInstance(ProductResponseDto, await this.repo.find({
+			relations: ['productBrand']
+		}));
 	}
 
 	async findOne(id: string) :Promise<Product | null> {

@@ -28,7 +28,7 @@ export class ProductTagService {
 	async findOne(id: string) : Promise<ProductTag | null> {
 		const ent = await this.repo.findOne({
 			where: {id},
-			relations: ['stores'],
+			relations: ['products'],
 		});
 		return plainToInstance(ProductTagResponseDto, ent);
 	}
