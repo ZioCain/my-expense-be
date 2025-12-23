@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { HeaderCheckMiddleware } from './_middleware/header.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MarketBrandModule } from './market-brand/market-brand.module';
 import { MarketStoreModule } from './market-store/market-store.module';
@@ -59,4 +61,13 @@ import { Scontrino } from './scontrino/entities/scontrino.entity';
 	],
 	controllers: [FileController],
 })
-export class AppModule { }
+@Module({
+	imports: [],
+})
+export class AppModule implements NestModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer
+			.apply(HeaderCheckMiddleware)
+			.forRoutes('*'); // Apply to all routes
+	}
+}
