@@ -27,7 +27,7 @@ export class MarketStoreService {
 	async findOne(id: string) : Promise<MarketStore | null> {
 		return plainToInstance(MarketStoreResponseDto, await this.repo.findOne({
 			where: {id},
-			relations: ['marketBrand']
+			relations: ['marketBrand', 'receipts']
 		}));
 	}
 

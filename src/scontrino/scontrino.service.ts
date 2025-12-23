@@ -23,11 +23,13 @@ export class ScontrinoService {
 	}
 
 	async findAll() {
-		return plainToInstance(ScontrinoResponseDto, await this.repo.find());
+		return plainToInstance(ScontrinoResponseDto, await this.repo.find({
+			relations: ['marketStore']
+		}));
 	}
 
 	async findOne(id: string) {
-		return plainToInstance(ScontrinoResponseDto, await this.repo.findOneBy({ id }));
+		return plainToInstance(ScontrinoResponseDto, await this.repo.findOne({ where: {id}, relations: ['marketStore'] }));
 	}
 
 	async update(id: string, updateDto: UpdateScontrinoDto) {
