@@ -29,6 +29,8 @@ const platform_express_1 = require("@nestjs/platform-express");
 const media_entity_1 = require("./media/file-controller/media.entity");
 const scontrino_module_1 = require("./scontrino/scontrino.module");
 const scontrino_entity_1 = require("./scontrino/entities/scontrino.entity");
+const path_1 = require("path");
+const serve_static_1 = require("@nestjs/serve-static");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -72,6 +74,10 @@ exports.AppModule = AppModule = __decorate([
             }),
             platform_express_1.MulterModule.register({
                 dest: './uploads',
+            }),
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(__dirname, '..', 'client'),
+                serveRoot: ''
             }),
         ],
         controllers: [file_controller_1.FileController],

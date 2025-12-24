@@ -21,6 +21,8 @@ import { MulterModule } from '@nestjs/platform-express';
 import { Media } from './media/file-controller/media.entity';
 import { ScontrinoModule } from './scontrino/scontrino.module';
 import { Scontrino } from './scontrino/entities/scontrino.entity';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
 	imports: [
@@ -57,6 +59,10 @@ import { Scontrino } from './scontrino/entities/scontrino.entity';
 		}),
 		MulterModule.register({
 			dest: './uploads', // Destination folder for uploaded files
+		}),
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'client'),
+			serveRoot: ''
 		}),
 	],
 	controllers: [FileController],
