@@ -7,7 +7,7 @@ export class HeaderCheckMiddleware implements NestMiddleware {
 		const secretHeader = req.headers['who-dis'];
 		const expectedValue = 'eWVhaCwgaXQncyBtZQ==';
 
-		if (secretHeader !== expectedValue) {
+		if (!req.originalUrl.includes('/files/') && secretHeader !== expectedValue) {
 			throw new UnauthorizedException('Invalid or missing required header');
 		}
 

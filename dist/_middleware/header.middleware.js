@@ -12,7 +12,7 @@ let HeaderCheckMiddleware = class HeaderCheckMiddleware {
     use(req, res, next) {
         const secretHeader = req.headers['who-dis'];
         const expectedValue = 'eWVhaCwgaXQncyBtZQ==';
-        if (secretHeader !== expectedValue) {
+        if (!req.originalUrl.includes('/files/') && secretHeader !== expectedValue) {
             throw new common_1.UnauthorizedException('Invalid or missing required header');
         }
         next();
